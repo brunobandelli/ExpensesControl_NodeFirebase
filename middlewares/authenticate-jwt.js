@@ -1,6 +1,4 @@
-import admin from 'firebase-admin'
-
-export default async function authenticateToken(req, res, next){
+export default async function authenticateToken(req, res, next, auth){
     const jwt = req.headers.authorization;
     if(!jwt){
         res.status(401).json({message: "Usuário não autorizado"})
@@ -9,7 +7,7 @@ export default async function authenticateToken(req, res, next){
   
     let decodedIdToken = ""
     try{
-        decodedIdToken = await admin.auth().verifyIdToken(jwt, true)
+        decodedIdToken = await auth.verifyIdToken(jwt, true)
     }catch(e){
         res.status(401).json({message: "Usuário não encontrado"})
         return

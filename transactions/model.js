@@ -1,5 +1,6 @@
 import admin from 'firebase-admin'
 import { TransactionRepository } from './repository.js';
+import { UserNotInformedError } from './errors/user-not-informed.error.js';
 
 export class Transaction {
 
@@ -13,16 +14,13 @@ export class Transaction {
 
     #repository;
 
-    constructor(){
-        this.#repository = new TransactionRepository()
+    constructor(transactionRepository){
+        this.#repository =  transactionRepository || new TransactionRepository()
     }
 
     findByUser(){
         if (!this.user?.uid){
-            return Promise.reject({
-                    code: 500,
-                    message: "Usuário não informado"
-            })
+            return Promise.reject(new UserNotInformedError())
         }
 
 
