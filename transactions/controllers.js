@@ -1,3 +1,4 @@
+import { response } from 'express';
 import { Transaction } from './model.js'
 
 export class TransactionController{
@@ -18,9 +19,14 @@ export class TransactionController{
         })
     }
 
-    // findByUid(req, res){
-    //     this.#transaction.uid = req.params.uid;
+    findByUid(req, res){
+        this.#transaction.uid = req.params.uid;
+        this.#transaction.user = req.user;
 
-    //     return this.#transaction.findByUid()
-    // }
+        return this.#transaction.findByUid().then(() => {
+            res.status(200).json(this.#transaction)
+        }).catch(error => {
+            res.status(error.code).json(error)
+        })
+    }
 }
