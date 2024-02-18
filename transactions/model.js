@@ -9,7 +9,7 @@ export class Transaction {
     date;
     description;
     money;
-    transctionType;
+    transactionType;
     type;
     user;
 
@@ -42,9 +42,23 @@ export class Transaction {
             this.date =  transactionDb.date;
             this.description = transactionDb.description;
             this.money = transactionDb.money;
-            this.transctionType = transactionDb.transctionType;
+            this.transactionType = transactionDb.transactionType;
             this.type = transactionDb.type;
             this.user = transactionDb.user
         })
+    }
+
+    create(params) {
+        this.date = params.date;
+        this.description = params.description;
+        this.money = params.money;
+        this.transactionType = params.transactionType;
+        this.type = params.type;
+        this.user = params.user;
+
+        return this.#repository.save(this).then(response => {
+            this.uid = response.uid
+        })
+        this.uid = 1;
     }
 }
