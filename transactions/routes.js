@@ -30,4 +30,9 @@ app.patch('/:uid',
     (request, response) => transactionController.update(request, response)
 )
 
+app.delete('/:uid',
+(request, response, next) =>  authenticateToken(request, response, next, admin.auth()),
+(request, response) => transactionController.delete(request, response)
+)
+
 export const transactionsRouter = app;
