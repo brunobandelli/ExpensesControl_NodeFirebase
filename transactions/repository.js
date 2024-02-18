@@ -30,4 +30,17 @@ export class TransactionRepository {
             .add(JSON.parse(JSON.stringify(transaction)))
             .then(response => ({uid: response.id}))
     }
+
+    update(transaction){
+        return admin.firestore()
+            .collection('transactions')
+            .doc(transaction.uid)
+            .update({
+                date: transaction.date,
+                description: transaction.description,
+                money: transaction.money,
+                transactionType: transaction.transactionType,
+                type: transaction.type
+            })
+    }
 }
